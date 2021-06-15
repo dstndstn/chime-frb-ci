@@ -29,7 +29,7 @@ jobs:
           # echo "BINDIR=${BASE}/bin" >> $GITHUB_ENV
           # echo "PYDIR=${BASE}/lib/python2.7/site-packages" >> $GITHUB_ENV
           echo "$BINDIR" >> $GITHUB_PATH
-        
+
       - name: Check out ch_frb_io
         uses: actions/checkout@v2
         with:
@@ -38,6 +38,7 @@ jobs:
           ref: dstn-master
       - name: Build ch_frb_io
         run: |
+          ls /src
           cd ch_frb_io
           ln -s site/Makefile.local.frb-compute-0 Makefile.local
           make -j8
