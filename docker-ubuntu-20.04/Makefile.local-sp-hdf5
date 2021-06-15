@@ -1,0 +1,10 @@
+# This simple Makefile.local works on either CentOS or Ubuntu,
+# and installs the sp_hdf5 headers in $(HOME)/include.
+
+INCDIR ?= $(HOME)/include
+LIBDIR ?= $(HOME)/lib
+
+HDF5_INC ?=
+HDF5_LIH ?=
+
+CPP=g++ -std=c++11 -Wall -O3 -I. -I$(INCDIR) -L$(LIBDIR) $(HDF5_INC) $(HDF5_LIB)
