@@ -9,12 +9,10 @@ RUN apt -y update && \
     file \
     pkg-config \
     wget \
-    python \
-    python-dev \
+    python2 \
+    python2-dev \
     ca-certificates \
     libhdf5-dev \
-    python-pip \
-    cython \
     libfftw3-dev \
     libmsgpack-dev \
     libzmqpp-dev \
@@ -23,7 +21,10 @@ RUN apt -y update && \
     liblz4-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN pip install numpy
+RUN wget -O get-pip.py https://bootstrap.pypa.io/pip/2.7/get-pip.py \
+    && python2.7 get-pip.py \
+    && pip install numpy \
+    && pip install cython
 
 RUN mkdir /src
 WORKDIR /src
@@ -41,6 +42,16 @@ COPY Makefile.local-simd-helpers /src/simd_helpers/Makefile.local
 RUN cd simd_helpers && \
     make -j8 && make install
 
+# Need old HDF5 library!
+RUN wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.20/src/hdf5-1.8.20.tar.gz \
+  && tar zxvf hdf5-1.8.20.tar.gz \
+  && cd hdf5-1.8.20/ \
+  && ./configure --enable-cxx --prefix=/usr/local \
+  && make -j8 \
+  && make install
+
+RUN apt remove -y libhdf5-dev
+
 RUN git clone https://github.com/kmsmith137/sp_hdf5.git
 COPY Makefile.local-sp-hdf5 /src/sp_hdf5/Makefile.local
 RUN cd sp_hdf5 && \
@@ -52,8 +63,8 @@ RUN cd simpulse && make -j8 && make install
 
 RUN git clone https://github.com/kmsmith137/pyclops.git
 COPY Makefile.local-pyclops /src/pyclops/Makefile.local
-COPY pyclops.patch /src/pyclops
-RUN cd pyclops && patch -p1 < pyclops.patch
+#COPY pyclops.patch /src/pyclops
+#RUN cd pyclops && patch -p1 < pyclops.patch
 RUN cd pyclops && make -j8 && make install
 
 RUN git clone https://github.com/kmsmith137/rf_kernels.git
