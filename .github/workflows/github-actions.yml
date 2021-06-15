@@ -4,6 +4,7 @@ jobs:
   build-ubuntu-latest:
     runs-on: ubuntu-latest
     steps:
+      - uses: docker://dstndstn/chime-frb-ci
       - run: echo "The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
@@ -20,6 +21,24 @@ jobs:
       - run: |
           gcc --version
           python --version
+      - name: Check out ch_frb_io
+        uses: actions/checkout@v2
+        with:
+          repository: CHIMEFRB/ch_frb_io
+          path: ch_frb_io
+          ref: dstn-master
+      - name: Build ch_frb_io
+        env:
+          BASE=$(pwd)
+          INCDIR=${BASE}/include
+          LIBDIR=${BASE}/lib
+          BINDIR=${BASE}/bin
+          PYDIR=${BASE}/lib/python2.7/site-packages
+        run: |
+          cd ch_frb_io
+          ln -s site/Makefile.local.frb-compute-0 Makefile.local
+          make -j8
+          make install
       - name: Check out ch_frb_l1
         uses: actions/checkout@v2
         with:
