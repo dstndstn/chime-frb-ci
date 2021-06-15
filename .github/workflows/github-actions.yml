@@ -22,4 +22,5 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: kmsmith137/bonsai
+          path: bonsai
           token: ${{ secrets.CHIME_ACCESS_TOKEN }}
