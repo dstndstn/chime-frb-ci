@@ -37,12 +37,7 @@ jobs:
           ln -s site/Makefile.local.frb-compute-0 Makefile.local
           make -j8
           make install
-      - name: Check out ch_frb_l1
-        uses: actions/checkout@v2
-        with:
-          repository: kmsmith137/ch_frb_l1
-          path: ch_frb_l1
-          ref: dstn-master
+
       - name: Check out bonsai
         uses: actions/checkout@v2
         with:
@@ -50,3 +45,39 @@ jobs:
           path: bonsai
           token: ${{ secrets.CHIME_ACCESS_TOKEN }}
           ref: dstn-master
+      - name: Build bonsai
+        run: |
+          set
+          cd bonsai
+          ln -s site/Makefile.local.frb-compute-0 Makefile.local
+          make -j8
+          make install
+          
+      - name: Check out rf_pipelines
+        uses: actions/checkout@v2
+        with:
+          repository: kmsmith137/rf_pipelines
+          path: rf_pipelines
+          ref: dstn-master
+      - name: Build rf_pipelines
+        run: |
+          set
+          cd rf_pipelines
+          ln -s site/Makefile.local.frb-compute-0 Makefile.local
+          make -j8
+          make install
+
+      - name: Check out ch_frb_l1
+        uses: actions/checkout@v2
+        with:
+          repository: kmsmith137/ch_frb_l1
+          path: ch_frb_l1
+          ref: dstn-master
+
+      - name: Build ch_frb_l1
+        run: |
+          set
+          cd ch_frb_l1
+          ln -s site/Makefile.local.frb-compute-0 Makefile.local
+          make -j8
+          make install
