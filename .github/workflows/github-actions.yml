@@ -20,6 +20,12 @@ jobs:
       - run: |
           gcc --version
           python --version
+      - name: Check out ch_frb_l1
+        uses: actions/checkout@v2
+        with:
+          repository: kmsmith137/ch_frb_l1
+          path: ch_frb_l1
+          ref: dstn-master
       - name: Check out bonsai
         uses: actions/checkout@v2
         with:
