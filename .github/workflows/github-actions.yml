@@ -22,11 +22,13 @@ jobs:
           gcc --version
           python --version
       - name: Set environment
-          echo "BASE=$(pwd)" >> $GITHUB_PATH
-          echo "INCDIR=${BASE}/include" >> $GITHUB_PATH
-          echo "LIBDIR=${BASE}/lib" >> $GITHUB_PATH
-          echo "BINDIR=${BASE}/bin" >> $GITHUB_PATH
-          echo "PYDIR=${BASE}/lib/python2.7/site-packages" >> $GITHUB_PATH
+        run: |
+          echo "BASE=$(pwd)" >> $GITHUB_ENV
+          echo "INCDIR=${BASE}/include" >> $GITHUB_ENV
+          echo "LIBDIR=${BASE}/lib" >> $GITHUB_ENV
+          echo "BINDIR=${BASE}/bin" >> $GITHUB_ENV
+          echo "PYDIR=${BASE}/lib/python2.7/site-packages" >> $GITHUB_ENV
+          echo "$BINDIR" >> $GITHUB_PATH
         
       - name: Check out ch_frb_io
         uses: actions/checkout@v2
