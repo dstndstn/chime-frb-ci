@@ -14,6 +14,8 @@ jobs:
           path: chime-frb-ci
       - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "The workflow is now ready to test your code on the runner."
+      - run: echo "pwd: $(pwd)"
+      - run: ls /src
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
