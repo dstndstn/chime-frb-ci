@@ -21,6 +21,13 @@ jobs:
       - run: |
           gcc --version
           python --version
+      - name: Set environment
+          echo "BASE=$(pwd)" >> $GITHUB_PATH
+          echo "INCDIR=${BASE}/include" >> $GITHUB_PATH
+          echo "LIBDIR=${BASE}/lib" >> $GITHUB_PATH
+          echo "BINDIR=${BASE}/bin" >> $GITHUB_PATH
+          echo "PYDIR=${BASE}/lib/python2.7/site-packages" >> $GITHUB_PATH
+        
       - name: Check out ch_frb_io
         uses: actions/checkout@v2
         with:
@@ -28,12 +35,6 @@ jobs:
           path: ch_frb_io
           ref: dstn-master
       - name: Build ch_frb_io
-        env:
-          BASE=$(pwd)
-          INCDIR=${BASE}/include
-          LIBDIR=${BASE}/lib
-          BINDIR=${BASE}/bin
-          PYDIR=${BASE}/lib/python2.7/site-packages
         run: |
           cd ch_frb_io
           ln -s site/Makefile.local.frb-compute-0 Makefile.local
