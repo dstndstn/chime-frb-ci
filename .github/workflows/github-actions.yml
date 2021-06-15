@@ -18,3 +18,8 @@ jobs:
       - run: |
           gcc --version
           python --version
+      - name: Check out bonsai
+        uses: actions/checkout@v2
+        with:
+          repository: kmsmith137/bonsai
+          token: ${{ secrets.CHIME_ACCESS_TOKEN }}
